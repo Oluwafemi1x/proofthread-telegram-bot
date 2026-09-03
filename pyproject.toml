@@ -1,0 +1,69 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "proofthread"
+version = "0.1.0"
+description = "A privacy-first decision and accountability ledger for Telegram groups."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Oluwafemi Olawumi Steven" }]
+keywords = ["telegram", "telegram-bot", "decision-log", "accountability", "python", "aiogram"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Communications :: Chat",
+]
+dependencies = [
+  "aiogram>=3.22,<4",
+  "aiohttp>=3.9,<4",
+  "SQLAlchemy[asyncio]>=2.0.43,<3",
+  "aiosqlite>=0.21,<1",
+  "pydantic-settings>=2.10,<3",
+  "APScheduler>=3.11,<4",
+  "structlog>=25.4,<26",
+]
+
+[project.optional-dependencies]
+postgres = ["asyncpg>=0.30,<1"]
+dev = [
+  "pytest>=8.4,<9",
+  "pytest-asyncio>=1.1,<2",
+  "pytest-cov>=6.2,<7",
+  "ruff>=0.12,<1",
+]
+
+[project.scripts]
+proofthread = "proofthread.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/proofthread"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+
+[tool.coverage.run]
+source = ["proofthread"]
+omit = [
+  "src/proofthread/handlers/*",
+  "src/proofthread/main.py",
+  "src/proofthread/logging.py",
+]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "ASYNC"]

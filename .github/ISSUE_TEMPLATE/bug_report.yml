@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a reproducible problem in ProofThread
+title: "bug: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping improve ProofThread. Never include bot tokens or real chat data.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the observed and expected behaviour.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      placeholder: Use synthetic group names, users, and messages.
+    validations:
+      required: true
+  - type: dropdown
+    id: runtime
+    attributes:
+      label: Runtime mode
+      options: [Polling, Webhook, Unknown]
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: ProofThread version or commit
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Python, database, operating system, and deployment method.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed tokens, personal data, and private chat content.
+          required: true
+
