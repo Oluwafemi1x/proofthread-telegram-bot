@@ -19,6 +19,7 @@ def test_polling_settings_are_valid() -> None:
     config.validate_mode_settings()
 
     assert config.mode == "polling"
+    assert config.auto_migrate is True
     assert config.webhook_path == "/telegram/webhook"
 
 

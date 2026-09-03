@@ -7,7 +7,7 @@
 - Configurable retention with scheduled deletion.
 - Forum-topic-specific digest commands.
 - CSV export alongside the structured JSON format.
-- Alembic database migrations.
+- Automated PostgreSQL backup verification examples.
 
 ## 0.3 — Verifiability
 
@@ -27,11 +27,10 @@
 ## 1.0 — Stable operations
 
 - Backward-compatible schema and command guarantees.
-- PostgreSQL reference deployment.
+- Migration compatibility checks across supported PostgreSQL releases.
 - Multi-instance reminder locking.
 - Localization framework.
 - Administrator observability and health endpoints.
 - Documented upgrade and rollback policy.
 
 Roadmap items are proposals, not promises. Open an issue before implementing a major schema, privacy, or trust-boundary change.
-

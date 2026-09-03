@@ -17,6 +17,7 @@ class Settings(BaseSettings):
 
     telegram_bot_token: SecretStr
     database_url: str = "sqlite+aiosqlite:///./data/proofthread.db"
+    auto_migrate: bool = True
     mode: Literal["polling", "webhook"] = "polling"
     log_level: str = "INFO"
     default_timezone: str = "UTC"

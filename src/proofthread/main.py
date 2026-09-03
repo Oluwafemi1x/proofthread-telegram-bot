@@ -10,7 +10,7 @@ from aiohttp import web
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from proofthread.config import Settings, get_settings
-from proofthread.database import create_engine_and_session, initialize_database
+from proofthread.database import create_engine_and_session, upgrade_database
 from proofthread.handlers.ledger import create_ledger_router
 from proofthread.logging import configure_logging
 from proofthread.reminders import send_due_reminders
@@ -53,7 +53,8 @@ def build_runtime(settings: Settings):
 
 async def run_polling(settings: Settings) -> None:
     engine, _service, bot, dispatcher, scheduler = build_runtime(settings)
-    await initialize_database(engine)
+    if settings.auto_migrate:
+        await upgrade_database(settings.database_url)
     await bot.set_my_commands(COMMANDS)
     await bot.delete_webhook(drop_pending_updates=False)
     scheduler.start()
@@ -71,7 +72,8 @@ def run_webhook(settings: Settings) -> None:
     application = web.Application()
 
     async def startup(_app: web.Application) -> None:
-        await initialize_database(engine)
+        if settings.auto_migrate:
+            await upgrade_database(settings.database_url)
         await bot.set_my_commands(COMMANDS)
         await bot.set_webhook(
             f"{settings.webhook_base_url.rstrip('/')}{settings.webhook_path}",

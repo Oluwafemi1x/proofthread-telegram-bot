@@ -41,7 +41,10 @@ This keeps business behaviour testable without Telegram network calls.
 - `ledger_records` — decisions, actions, questions, evidence, ownership, and status; and
 - `ledger_events` — append-style lifecycle events for accountability.
 
-SQLAlchemy's async interface supports SQLite through `aiosqlite` and PostgreSQL through the optional `asyncpg` dependency.
+SQLAlchemy's async interface supports SQLite through `aiosqlite` and PostgreSQL through `asyncpg`.
+Alembic owns production schema changes. Startup applies pending migrations by default, while
+multi-instance deployments can disable automatic migration and run `proofthread-db head` once as
+a release step.
 
 ### Scheduling
 
@@ -83,4 +86,3 @@ When a command replies to a message, ProofThread stores the message ID, stable l
 - project-management-suite replacement;
 - tamper-proof or cryptographically signed exports; and
 - multi-instance reminder scheduling without a distributed lock.
-

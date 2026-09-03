@@ -1,13 +1,29 @@
 services:
+  database:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: proofthread
+      POSTGRES_USER: proofthread
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-proofthread-local-only}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U proofthread -d proofthread"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - proofthread-postgres:/var/lib/postgresql/data
+
   bot:
     build: .
     restart: unless-stopped
     env_file: .env
     environment:
-      PROOFTHREAD_DATABASE_URL: sqlite+aiosqlite:///./data/proofthread.db
-    volumes:
-      - proofthread-data:/app/data
+      PROOFTHREAD_DATABASE_URL: postgresql+asyncpg://proofthread:${POSTGRES_PASSWORD:-proofthread-local-only}@database:5432/proofthread
+      PROOFTHREAD_AUTO_MIGRATE: "true"
+    depends_on:
+      database:
+        condition: service_healthy
 
 volumes:
-  proofthread-data:
-
+  proofthread-postgres:

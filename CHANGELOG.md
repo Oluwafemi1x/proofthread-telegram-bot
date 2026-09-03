@@ -4,6 +4,14 @@ All notable changes to ProofThread follow [Keep a Changelog](https://keepachange
 
 ## [Unreleased]
 
+### Added
+
+- Production PostgreSQL driver installed by default.
+- Versioned Alembic schema migrations with automatic startup upgrades.
+- PostgreSQL 17 Docker Compose service with health checks and durable storage.
+- Provider database URL normalization and a `proofthread-db` migration command.
+- PostgreSQL deployment, backup, and restore documentation.
+
 ## [0.1.0] - 2026-09-03
 
 ### Added
@@ -22,4 +30,3 @@ All notable changes to ProofThread follow [Keep a Changelog](https://keepachange
 
 [Unreleased]: https://github.com/Oluwafemi1x/proofthread-telegram-bot/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/Oluwafemi1x/proofthread-telegram-bot/releases/tag/v0.1.0
-

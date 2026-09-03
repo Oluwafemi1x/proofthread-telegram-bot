@@ -50,7 +50,9 @@ Generic summarizers and task bots already exist. ProofThread focuses on the unde
 - 🧹 **Privacy deletion** — creators and administrators can remove an entry with `/forget`.
 - 🌍 **Per-group timezone** — interpret deadlines in each group's working timezone.
 - 🔐 **Authenticated webhooks** — verify Telegram's secret-token header in production mode.
-- 🐳 **Portable deployment** — run locally, in Docker, or with a PostgreSQL database.
+- 🐘 **Production PostgreSQL** — async driver, health-checked Compose service, durable volume,
+  provider URL normalization, and versioned Alembic migrations.
+- 🐳 **Portable deployment** — run locally, in Docker, or against a managed database later.
 - 🧪 **Tested core** — parser, evidence links, record lifecycle, scoping, and export behaviour.
 
 ## Quick example
@@ -208,7 +210,8 @@ docker compose up --build -d
 docker compose logs -f bot
 ```
 
-The named Docker volume keeps the SQLite database across container restarts.
+Compose runs PostgreSQL 17 and keeps its data in a named volume across container restarts. This
+works locally without paying a hosting provider. See [docs/POSTGRESQL.md](docs/POSTGRESQL.md).
 
 ## Production webhook mode
 
@@ -227,19 +230,15 @@ Telegram includes the configured secret in the `X-Telegram-Bot-Api-Secret-Token`
 
 ## PostgreSQL
 
-Install the optional driver:
-
-```bash
-pip install -e ".[postgres]"
-```
-
-Configure the async URL:
+PostgreSQL and Alembic support are installed with ProofThread. Configure a provider URL:
 
 ```dotenv
-PROOFTHREAD_DATABASE_URL=postgresql+asyncpg://proofthread:password@database/proofthread
+PROOFTHREAD_DATABASE_URL=postgresql://proofthread:password@database:5432/proofthread
 ```
 
-Version 0.1 creates tables automatically. Before a multi-instance production deployment, add a migration workflow such as Alembic and use a shared job lock for reminders.
+Common `postgres://` and `postgresql://` URLs are automatically converted for the async driver.
+The bot applies versioned Alembic migrations during startup. Run them manually with
+`proofthread-db head`. Read the [PostgreSQL operations guide](docs/POSTGRESQL.md) before production.
 
 ## Development
 
@@ -272,7 +271,7 @@ See [docs/ROADMAP.md](docs/ROADMAP.md). High-value contribution areas include:
 - recurring reminders and escalation policies;
 - forum-topic dashboards;
 - optional human-confirmed AI extraction;
-- Alembic migrations and multi-instance scheduling locks; and
+- multi-instance scheduling locks; and
 - broader Telegram Bot API 10.x rich-message support.
 
 ## Contributing

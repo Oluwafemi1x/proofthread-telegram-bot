@@ -24,13 +24,14 @@ dependencies = [
   "aiohttp>=3.9,<4",
   "SQLAlchemy[asyncio]>=2.0.43,<3",
   "aiosqlite>=0.21,<1",
+  "asyncpg>=0.30,<1",
+  "alembic>=1.16,<2",
   "pydantic-settings>=2.10,<3",
   "APScheduler>=3.11,<4",
   "structlog>=25.4,<26",
 ]
 
 [project.optional-dependencies]
-postgres = ["asyncpg>=0.30,<1"]
 dev = [
   "pytest>=8.4,<9",
   "pytest-asyncio>=1.1,<2",
@@ -40,9 +41,14 @@ dev = [
 
 [project.scripts]
 proofthread = "proofthread.main:main"
+proofthread-db = "proofthread.database:database_cli"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/proofthread"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"alembic.ini" = "proofthread/alembic.ini"
+"migrations" = "proofthread/migrations"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
