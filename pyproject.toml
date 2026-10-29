@@ -28,14 +28,14 @@ dependencies = [
   "alembic>=1.16,<2",
   "pydantic-settings>=2.10,<3",
   "APScheduler>=3.11,<4",
-  "structlog>=25.4,<26",
+  "structlog>=25.4,<27",
 ]
 
 [project.optional-dependencies]
 dev = [
-  "pytest>=8.4,<9",
+  "pytest>=8.4,<10",
   "pytest-asyncio>=1.1,<2",
-  "pytest-cov>=6.2,<7",
+  "pytest-cov>=6.2,<8",
   "ruff>=0.12,<1",
 ]
 
